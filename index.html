@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My experiment</title>
+
+    <!-- JsPsych -->
+    <script src="https://unpkg.com/jspsych@7.2.1"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-external-html@1.1.0"></script>
+    <link href="https://unpkg.com/jspsych@7.2.1/css/jspsych.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .jspsych-display-element {
+            font-size: 20px;
+        }
+
+        .jspsych-content {
+            max-width: 80%;
+        }
+    </style>
+
+</head>
+<body>
+</body>
+<script>
+    /* initialize jsPsych */
+    const jsPsych = initJsPsych();
+
+    /* create timeline */
+    const timeline = [];
+
+    /*  const check_consent = function () {
+          if (document.getElementById('consent_checkbox').checked) {
+              return true;
+          } else {
+              alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+              return false;
+          }
+      };
+      /* Check Consent */
+    /*   const consent = {
+           type: jsPsychExternalHtml,
+           url: lang + ".html",
+           cont_btn: "start",
+           check_fn: check_consent
+       };
+       timeline.push(consent)
+       */
+
+    const lang = jsPsych.randomization.sampleWithoutReplacement(["de", "en"], 1)
+
+
+    const enter_fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+    }
+    // timeline.push(enter_fullscreen)
+
+
+    /*  Instructions  */
+
+    const instructions = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "_1.html",
+        cont_btn: "start",
+    };
+    timeline.push(instructions)
+
+
+    const check_answer = function () {
+        if (document.getElementById('yes_checkbox').checked ^ document.getElementById('no_checkbox').checked) {
+            return true;
+        } else {
+            alert("Please select exactly one answer.'");
+            return false;
+        }
+    };
+
+    const trial = {
+        type: jsPsychExternalHtml,
+        url: "content/de/crevasse/self_rel_pres_high_involv_cong_action.html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+
+    timeline.push(trial)
+
+
+    const act = jsPsych.randomization.sampleWithoutReplacement(["action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction"], 9)
+    const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize"], 6)
+    const involv = jsPsych.randomization.sampleWithoutReplacement(["low_involv_", "high_involv_", "low_involv_", "high_involv_", "high_involv_", "low_involv_", "low_involv_", "high_involv_", "low_involv_", "high_involv_"], 9)
+    const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
+
+    const trial1 = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/" + dilemma[0] + "/self_rel_pres_" + involv[0] + cong[0] + act[0] + ".html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+
+    timeline.push(trial1)
+
+    const trial2 = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/" + dilemma[1] + "/self_rel_pres_" + involv[1] + cong[1] + act[1] + ".html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+    timeline.push(trial2)
+
+    const trial3 = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/" + dilemma[2] + "/self_rel_pres_" + involv[2] + cong[2] + act[2] + ".html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+    timeline.push(trial3)
+
+    const trial4 = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/" + dilemma[3] + "/self_rel_pres_" + involv[3] + cong[3] + act[3] + ".html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+    timeline.push(trial4)
+
+    const trial5 = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/" + dilemma[4] + "/self_rel_pres_" + involv[4] + cong[4] + act[4] + ".html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+    timeline.push(trial5)
+
+    const trial6 = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/" + dilemma[5] + "/self_rel_pres_" + involv[5] + cong[5] + act[5] + ".html",
+        check_fn: check_answer,
+        cont_btn: "next",
+        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+    };
+    timeline.push(trial6)
+
+    /* const given_answer = function () {
+         if(document.getElementById('yes_checkbox').checked) {return 2;
+         } if(document.getElementById('no_checkbox').checked) {return 1;
+         } else {
+             return 0
+         }
+     } */
+
+
+    /* start the experiment */
+    jsPsych.run(timeline);
+
+    console.log(jsPsych.data.get())
+
+</script>
+</html>
