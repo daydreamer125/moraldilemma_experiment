@@ -71,11 +71,8 @@
 
 
     const check_answer = function () {
-        if (document.getElementById('yes_checkbox').checked ^ document.getElementById('no_checkbox').checked) {
+        if (document.getElementById('yes').checked ^ document.getElementById('no').checked) {
             return true;
-        } else {
-            alert("Please select exactly one answer.'");
-            return false;
         }
     };
 
