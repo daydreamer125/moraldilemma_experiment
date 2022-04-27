@@ -79,85 +79,23 @@
         }
     };
 
-    const trial = {
-        type: jsPsychExternalHtml,
-        url: "content/de/crevasse/self_rel_pres_high_involv_cong_action.html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
-
-    timeline.push(trial)
-
 
     const act = jsPsych.randomization.sampleWithoutReplacement(["action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction"], 9)
     const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize"], 6)
     const involv = jsPsych.randomization.sampleWithoutReplacement(["low_involv_", "high_involv_", "low_involv_", "high_involv_", "high_involv_", "low_involv_", "low_involv_", "high_involv_", "low_involv_", "high_involv_"], 9)
     const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
 
-    const trial1 = {
-        type: jsPsychExternalHtml,
-        url: "content/" + lang + "/" + dilemma[0] + "/self_rel_pres_" + involv[0] + cong[0] + act[0] + ".html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
+    for (let i = 0; i < 9; i++) {
+        let trial = {
+            type: jsPsychExternalHtml,
+            url: "content/" + lang + "/" + dilemma[i] + "/self_rel_pres_" + involv[i] + cong[i] + act[i] + ".html",
+            check_fn: check_answer,
+            cont_btn: "next",
+            /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+        };
 
-    timeline.push(trial1)
-
-    const trial2 = {
-        type: jsPsychExternalHtml,
-        url: "content/" + lang + "/" + dilemma[1] + "/self_rel_pres_" + involv[1] + cong[1] + act[1] + ".html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
-    timeline.push(trial2)
-
-    const trial3 = {
-        type: jsPsychExternalHtml,
-        url: "content/" + lang + "/" + dilemma[2] + "/self_rel_pres_" + involv[2] + cong[2] + act[2] + ".html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
-    timeline.push(trial3)
-
-    const trial4 = {
-        type: jsPsychExternalHtml,
-        url: "content/" + lang + "/" + dilemma[3] + "/self_rel_pres_" + involv[3] + cong[3] + act[3] + ".html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
-    timeline.push(trial4)
-
-    const trial5 = {
-        type: jsPsychExternalHtml,
-        url: "content/" + lang + "/" + dilemma[4] + "/self_rel_pres_" + involv[4] + cong[4] + act[4] + ".html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
-    timeline.push(trial5)
-
-    const trial6 = {
-        type: jsPsychExternalHtml,
-        url: "content/" + lang + "/" + dilemma[5] + "/self_rel_pres_" + involv[5] + cong[5] + act[5] + ".html",
-        check_fn: check_answer,
-        cont_btn: "next",
-        /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
-    };
-    timeline.push(trial6)
-
-    /* const given_answer = function () {
-         if(document.getElementById('yes_checkbox').checked) {return 2;
-         } if(document.getElementById('no_checkbox').checked) {return 1;
-         } else {
-             return 0
-         }
-     } */
-
+        timeline.push(trial)
+    }
 
     /* start the experiment */
     jsPsych.run(timeline);
