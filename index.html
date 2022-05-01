@@ -9,20 +9,17 @@
     <script src="https://unpkg.com/jspsych@7.2.1"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-external-html@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.0"></script>
     <link href="https://unpkg.com/jspsych@7.2.1/css/jspsych.css" rel="stylesheet" type="text/css"/>
-    <style>
-        .jspsych-display-element {
-            font-size: 20px;
-        }
-
-        .jspsych-content {
-            max-width: 80%;
-        }
-    </style>
+    <link href="custom.css" rel="stylesheet" type="text/css">
 
 </head>
+
 <body>
 </body>
 <script>
@@ -40,15 +37,9 @@
               return false;
           }
       };
-      /* Check Consent */
-    /*   const consent = {
-           type: jsPsychExternalHtml,
-           url: lang + ".html",
-           cont_btn: "start",
-           check_fn: check_consent
-       };
-       timeline.push(consent)
-       */
+        */
+
+
 
     const lang = jsPsych.randomization.sampleWithoutReplacement(["de", "en"], 1)
 
@@ -58,6 +49,9 @@
         fullscreen_mode: true,
     }
     // timeline.push(enter_fullscreen)
+
+    // Attention Check
+
 
 
     /*  Instructions  */
@@ -78,21 +72,173 @@
 
 
     const act = jsPsych.randomization.sampleWithoutReplacement(["action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction"], 9)
-    const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize"], 6)
+    const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize", "vaccine", "policespy"], 8)
     const involv = jsPsych.randomization.sampleWithoutReplacement(["low_involv_", "high_involv_", "low_involv_", "high_involv_", "high_involv_", "low_involv_", "low_involv_", "high_involv_", "low_involv_", "high_involv_"], 9)
     const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
 
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 8; i++) {
         let trial = {
             type: jsPsychExternalHtml,
             url: "content/" + lang + "/" + dilemma[i] + "/self_rel_pres_" + involv[i] + cong[i] + act[i] + ".html",
             check_fn: check_answer,
             cont_btn: "next",
-            /* save_trial_parameters: {(document.getElementByID('yes_checkbox').checked)}, */
+           // save_trial_parameters: document.getElementByID('yes').value,
         };
 
         timeline.push(trial)
     }
+
+    // Understanding of dilemmas
+
+    if(lang == "de") {
+        var understandde = {
+            type: jsPsychSurveyLikert,
+            questions: [
+                {
+                    prompt: "Bitte bewerten Sie Ihr Verständnis der moralischen Dilemmata.",
+                    labels: [
+                        "Kein Verständnis",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "Völliges Verständnis"
+                    ]
+                }
+            ]
+        };
+        timeline.push(understandde)
+    } else {
+        var understanden = {
+            type: jsPsychSurveyLikert,
+            questions: [
+                {
+                    prompt: "Please rate your understanding of the moral dilemmas",
+                    labels: [
+                        "No understanding",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "Complete understanding"
+                    ]
+                }
+            ]
+        };
+        timeline.push(understanden)
+    }
+
+
+    // Demographics
+
+    if(lang == "de") {
+        var demografde = {
+            type: jsPsychSurveyMultiChoice,
+            questions: [
+                {
+                    prompt: "Bitte geben Sie Ihr Geschlecht an.",
+                    name: 'gender',
+                    options: ['männlich', 'weiblich', 'divers'],
+                    required: true,
+                },
+                {
+                    prompt: "Sind Deutsch oder Englisch Ihre Muttersprache?",
+                    name: 'mainlanguage',
+                    options: ['Deutsch', 'Englisch', 'Andere'],
+                    required: true,
+                },
+                {
+                    prompt: "Haben Sie bereits 12 Monate oder länger <br>" +
+                        "in einem englischsprachigen Land gelebt?",
+                    name: 'enspeakingcountry',
+                    options: ['ja', 'nein'],
+                    required: true,
+                },
+            ],
+            preamble: "Bitte machen Sie noch einige demografische Angaben.",
+            button_label: "Weiter",
+            columns: 0,
+        };
+        timeline.push(demografde)
+    } else {
+        var demografen = {
+            type: jsPsychSurveyMultiChoice,
+            questions: [
+                {
+                    prompt: "Please select your gender.",
+                    name: 'gender',
+                    options: ['male', 'female', 'diverse'],
+                    required: true,
+                },
+                {
+                    prompt: "Are German or English your native language?",
+                    name: 'mainlanguage',
+                    options: ['German', 'English', 'other'],
+                    required: true,
+                },
+                {
+                    prompt: "Have you lived in an english speaking <br>" +
+                        "country for at least 12 months?",
+                    name: 'enspeakingcountry',
+                    options: ['yes', 'no'],
+                    required: true,
+                },
+            ],
+            preamble: "Please provide some demographic information.",
+        };
+        timeline.push(demografen)
+    }
+
+    // Anmerkungen
+
+    if(lang == "de") {
+        var alterde = {
+            type: jsPsychSurveyText,
+            questions: [
+                {prompt: 'Wie alt sind Sie?'}
+            ],
+            preamble: 'Bitte machen Sie noch einige demografische Angaben.',
+        };
+        timeline.push(alterde)
+    } else {
+        var alteren = {
+            type: jsPsychSurveyText,
+            questions: [
+                {prompt: 'How old are you?'}
+            ],
+            preamble: 'Please provide some demographic information.',
+        };
+        timeline.push(alteren)
+    }
+
+
+
+    // Dank am Ende
+
+    if(lang == "de") {
+        var dankde = {
+            type: jsPsychInstructions,
+            pages: [
+                'Vielen Dank für die Teilnahme! Wenn Sie Fragen oder Anmerkungen haben <br>' +
+                'wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>'
+            ],
+            show_clickable_nav: false
+        };
+        timeline.push(dankde)
+    } else {
+        var danken = {
+            type: jsPsychInstructions,
+            pages: [
+                'Thank you for your participation! If you have any questions or comments about the experiment <br>' +
+                    'please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>'
+            ],
+            show_clickable_nav: false
+        };
+        timeline.push(danken)
+    }
+
 
     /* start the experiment */
     jsPsych.run(timeline);

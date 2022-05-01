@@ -1,0 +1,20 @@
+.jspsych-display-element {
+    font-size: 20px;
+    }
+
+.jspsych-content {
+    max-width: 80%;
+    text-align: center;
+}
+
+.jspsych-survey-multi-choice-question{
+    text-align: center;
+}
+
+.jspsych-survey-multi-choice-horizontal {
+    text-align: center;
+}
+
+.jspsych-survey-multi-choice-form{
+    text-align: center;
+}
