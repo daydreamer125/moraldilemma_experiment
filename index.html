@@ -29,17 +29,6 @@
     /* create timeline */
     const timeline = [];
 
-    /*  const check_consent = function () {
-          if (document.getElementById('consent_checkbox').checked) {
-              return true;
-          } else {
-              alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
-              return false;
-          }
-      };
-        */
-
-
 
     const lang = jsPsych.randomization.sampleWithoutReplacement(["de", "en"], 1)
 
@@ -50,11 +39,7 @@
     }
     // timeline.push(enter_fullscreen)
 
-    // Attention Check
-
-
-
-    /*  Instructions  */
+   /*  Instructions  */
 
     const instructions = {
         type: jsPsychExternalHtml,
@@ -70,23 +55,48 @@
         }
     };
 
+  /*  const manipulation_check = function () {
+        if (document.getElementById('yes').checked && document.getElementById('no').checked) {
+            return true;
+        }
+    }; */
+
 
     const act = jsPsych.randomization.sampleWithoutReplacement(["action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction"], 9)
-    const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize", "vaccine", "policespy"], 8)
+    const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize", "vaccine", "policespy", "trolley"], 9)
     const involv = jsPsych.randomization.sampleWithoutReplacement(["low_involv_", "high_involv_", "low_involv_", "high_involv_", "high_involv_", "low_involv_", "low_involv_", "high_involv_", "low_involv_", "high_involv_"], 9)
     const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
 
-    for (let i = 0; i < 8; i++) {
+
+    for (let i = 0; i < 9; i++) {
         let trial = {
             type: jsPsychExternalHtml,
             url: "content/" + lang + "/" + dilemma[i] + "/self_rel_pres_" + involv[i] + cong[i] + act[i] + ".html",
             check_fn: check_answer,
             cont_btn: "next",
+            css_classes: ['button2'],
            // save_trial_parameters: document.getElementByID('yes').value,
         };
 
         timeline.push(trial)
     }
+
+    // Attention Check
+
+    var attention = {
+        type: jsPsychExternalHtml,
+        url: "content/" + lang + "/attention_check.html",
+        cont_btn: 'next',
+        on_load: function () {
+            var btn = document.getElementById("manipulationCheck");
+            btn.onclick = function() {
+                jsPsych.finishTrial({ responses: true});
+            };
+        },
+        css_classes: ['button2'],
+    };
+
+    timeline.push(attention);
 
     // Understanding of dilemmas
 
@@ -200,6 +210,7 @@
                 {prompt: 'Wie alt sind Sie?'}
             ],
             preamble: 'Bitte machen Sie noch einige demografische Angaben.',
+            button_label: 'Weiter',
         };
         timeline.push(alterde)
     } else {
@@ -213,7 +224,26 @@
         timeline.push(alteren)
     }
 
+    // Anmerkungen
 
+    if(lang == "de") {
+        var anmerkungde = {
+            type: jsPsychSurveyText,
+            questions: [
+                {prompt: 'Haben Sie noch Anmerkungen?', rows: 5}
+            ],
+            button_label: 'Weiter',
+        };
+        timeline.push(anmerkungde)
+    } else {
+        var anmerkungen = {
+            type: jsPsychSurveyText,
+            questions: [
+                {prompt: 'Do you have any comments?', rows: 5}
+            ],
+        };
+        timeline.push(anmerkungen)
+    }
 
     // Dank am Ende
 
@@ -224,7 +254,8 @@
                 'Vielen Dank für die Teilnahme! Wenn Sie Fragen oder Anmerkungen haben <br>' +
                 'wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>'
             ],
-            show_clickable_nav: false
+            show_clickable_nav: false,
+            button_label: 'Weiter',
         };
         timeline.push(dankde)
     } else {
