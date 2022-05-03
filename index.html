@@ -15,6 +15,7 @@
     <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-html-form"></script>
     <link href="https://unpkg.com/jspsych@7.2.1/css/jspsych.css" rel="stylesheet" type="text/css"/>
     <link href="custom.css" rel="stylesheet" type="text/css">
 
@@ -29,25 +30,52 @@
     /* create timeline */
     const timeline = [];
 
+    // generate a random subject ID with 15 characters
+    const subject_id = jsPsych.randomization.randomID(15);
 
+    // generate language-condition
     const lang = jsPsych.randomization.sampleWithoutReplacement(["de", "en"], 1)
 
+    // record condition assignment
+    jsPsych.data.addProperties({
+        subject: subject_id,
+        condition: lang,
+    });
 
-    const enter_fullscreen = {
+
+ // Enter fullscreen mode and initial greeting
+
+if(lang == "de") {
+    const enter_fullscreende = {
         type: jsPsychFullscreen,
         fullscreen_mode: true,
+        message: '<p>Willkommen zum Experiment. Im Rahmen meiner Master-Arbeit erforsche ich das Entscheidungsverhalten bei moralischen Dilemmata. Die erhobenen Daten werden anonymisiert verarbeitet. Bitte klicken Sie "Weiter", um den Vollbildmodus zu starten und das Experiment zu beginnen. </p>',
+        button_label: 'Weiter',
+        delay_after: 0,
     }
-    // timeline.push(enter_fullscreen)
+    timeline.push(enter_fullscreende)
+} else{
+    const enter_fullscreenen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: true,
+        message: `<p>Welcome to the experiment. As part of my master's thesis, I am researching decision-making behavior in moral dilemmas. All collected data will be processed anonymously. Please press "Continue" to start fullscreen mode and begin the experiment.</p>`,
+        button_label: 'Continue',
+        delay_after: 0,
+    }
+    timeline.push(enter_fullscreenen)
+}
 
-   /*  Instructions  */
+    //  Instructions
 
     const instructions = {
         type: jsPsychExternalHtml,
         url: "content/" + lang + "_1.html",
-        cont_btn: "start",
+        cont_btn: "next",
+        css_classes: ['button2'],
     };
     timeline.push(instructions)
 
+// Check function for progressing trials
 
     const check_answer = function () {
         if (document.getElementById('yes').checked ^ document.getElementById('no').checked) {
@@ -55,33 +83,36 @@
         }
     };
 
-  /*  const manipulation_check = function () {
-        if (document.getElementById('yes').checked && document.getElementById('no').checked) {
-            return true;
-        }
-    }; */
-
+    //Drawing of conditions for the dilemmas
 
     const act = jsPsych.randomization.sampleWithoutReplacement(["action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction", "action", "inaction"], 9)
     const dilemma = jsPsych.randomization.sampleWithoutReplacement(["orphanage", "ebola", "foxhole", "crevasse", "transplant", "nobelprize", "vaccine", "policespy", "trolley"], 9)
-    const involv = jsPsych.randomization.sampleWithoutReplacement(["low_involv_", "high_involv_", "low_involv_", "high_involv_", "high_involv_", "low_involv_", "low_involv_", "high_involv_", "low_involv_", "high_involv_"], 9)
+    const involvement = jsPsych.randomization.sampleWithoutReplacement(["low_involv_", "high_involv_", "low_involv_", "high_involv_", "high_involv_", "low_involv_", "low_involv_", "high_involv_", "low_involv_", "high_involv_"], 9)
     const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
 
 
     for (let i = 0; i < 9; i++) {
         let trial = {
             type: jsPsychExternalHtml,
-            url: "content/" + lang + "/" + dilemma[i] + "/self_rel_pres_" + involv[i] + cong[i] + act[i] + ".html",
+            url: "content/" + lang + "/" + dilemma[i] + "/self_rel_pres_" + involvement[i] + cong[i] + act[i] + ".html",
             check_fn: check_answer,
             cont_btn: "next",
             css_classes: ['button2'],
-           // save_trial_parameters: document.getElementByID('yes').value,
         };
-
         timeline.push(trial)
     }
 
-    // Attention Check
+    /* on_finish: function(){
+                if(document.getElementById('yes').checked){
+                    data.affirmed = 'yes'
+                } else if(document.getElementById('no').checked){
+                    data.affirmed = 'no'
+                } else {
+                    data.affirmed = 'NA'
+                }
+            }, */
+
+   // Attention Check
 
     var attention = {
         type: jsPsychExternalHtml,
@@ -97,6 +128,22 @@
     };
 
     timeline.push(attention);
+
+    // test saving data
+   /* jsPsych.data.addProperties({
+        answer: function(){
+            if(document.getElementById('yes').checked){
+                return 'yes'
+            } else if(document.getElementById('no').checked){
+                return 'no'
+            } else if(document.getElementById('manipulationCheck').pressed){
+                return 'passed'
+            } else{
+                return 'NA'
+            }
+        },
+    }); */
+
 
     // Understanding of dilemmas
 
@@ -201,28 +248,26 @@
         timeline.push(demografen)
     }
 
-    // Anmerkungen
+    // Age with number input
 
     if(lang == "de") {
         var alterde = {
-            type: jsPsychSurveyText,
-            questions: [
-                {prompt: 'Wie alt sind Sie?'}
-            ],
-            preamble: 'Bitte machen Sie noch einige demografische Angaben.',
-            button_label: 'Weiter',
+            type: jsPsychSurveyHtmlForm,
+            preamble: `<p> Wie alt sind Sie? </p>`,
+            html: `<p><label for="number">Alter:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
+            button_label: 'Weiter'
         };
         timeline.push(alterde)
     } else {
         var alteren = {
-            type: jsPsychSurveyText,
-            questions: [
-                {prompt: 'How old are you?'}
-            ],
-            preamble: 'Please provide some demographic information.',
+            type: jsPsychSurveyHtmlForm,
+            preamble: `<p> How old are you? </p>`,
+            html: `<p><label for="number">Age:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
+            button_label: 'Weiter'
         };
         timeline.push(alteren)
     }
+
 
     // Anmerkungen
 
@@ -245,36 +290,69 @@
         timeline.push(anmerkungen)
     }
 
+
+    // Compensation
+
+    if(lang == "de") {
+        var compensationde = {
+            type: jsPsychSurveyHtmlForm,
+            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie eine halbe Versuchspersonenstunde erhalten möchten <strong>oder</strong> an der Verlosung eines von drei Gutscheinen im Wert von xx€ teilnehmen möchten. Für den Erhalt der Versuchspersonenstunde ist die Angabe Ihrer studentischen E-Mail-Adresse (...@student.uni-tuebingen.de) erforderlich. </p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung DB-Gutschein</label><br><br></p>`,
+            button_label: 'Weiter'
+        };
+        timeline.push(compensationde);
+    } else{
+        var compensationen = {
+            type: jsPsychSurveyHtmlForm,
+            // language=HTML
+            preamble: `<p> Please enter your e-mail address if you would like to receive half a ‘Testpersonhour’ (Versuchspersonenstunde) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) to receive the half 'Testpersonhour'.</p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung DB-Gutschein</label><br><br></p>`,
+            button_label: 'Weiter'
+        };
+        timeline.push(compensationen);
+    }
+
+    // Exit fullscreen
+    const exit_fullscreen = {
+        type: jsPsychFullscreen,
+        fullscreen_mode: false,
+        delay_after: 0,
+    }
+    timeline.push(exit_fullscreen)
+
+
     // Dank am Ende
 
     if(lang == "de") {
         var dankde = {
             type: jsPsychInstructions,
             pages: [
-                'Vielen Dank für die Teilnahme! Wenn Sie Fragen oder Anmerkungen haben <br>' +
-                'wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>'
+                `Vielen Dank für die Teilnahme! Sie können dieses Browserfenster nun schließen. Wenn Sie Fragen oder weitere Anmerkungen haben <br>wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>`
             ],
             show_clickable_nav: false,
-            button_label: 'Weiter',
         };
         timeline.push(dankde)
     } else {
         var danken = {
             type: jsPsychInstructions,
             pages: [
-                'Thank you for your participation! If you have any questions or comments about the experiment <br>' +
-                    'please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>'
+                `Thank you for your participation! You can close this browser window now. If you have any questions or further comments about the experiment <br>please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>`
             ],
-            show_clickable_nav: false
+            show_clickable_nav: false,
         };
         timeline.push(danken)
     }
+
 
 
     /* start the experiment */
     jsPsych.run(timeline);
 
     console.log(jsPsych.data.get())
+
+    // Data storage
+    
+
 
 </script>
 </html>
