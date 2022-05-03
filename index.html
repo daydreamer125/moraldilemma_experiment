@@ -297,7 +297,7 @@ if(lang == "de") {
         var compensationde = {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie eine halbe Versuchspersonenstunde erhalten möchten <strong>oder</strong> an der Verlosung eines von drei Gutscheinen im Wert von xx€ teilnehmen möchten. Für den Erhalt der Versuchspersonenstunde ist die Angabe Ihrer studentischen E-Mail-Adresse (...@student.uni-tuebingen.de) erforderlich. </p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung DB-Gutschein</label><br><br></p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
             button_label: 'Weiter'
         };
         timeline.push(compensationde);
@@ -306,7 +306,7 @@ if(lang == "de") {
             type: jsPsychSurveyHtmlForm,
             // language=HTML
             preamble: `<p> Please enter your e-mail address if you would like to receive half a ‘Testpersonhour’ (Versuchspersonenstunde) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) to receive the half 'Testpersonhour'.</p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung DB-Gutschein</label><br><br></p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
             button_label: 'Weiter'
         };
         timeline.push(compensationen);
@@ -351,7 +351,7 @@ if(lang == "de") {
     console.log(jsPsych.data.get())
 
     // Data storage
-    
+
 
 
 </script>
