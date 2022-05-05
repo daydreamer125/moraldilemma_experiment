@@ -24,10 +24,25 @@
 <body>
 </body>
 <script>
-    /* initialize jsPsych */
-    const jsPsych = initJsPsych();
 
-    /* create timeline */
+
+    /* initialize jsPsych */
+    const jsPsych = initJsPsych({
+        on_finish: function() {
+            jsPsych.data.displayData('csv');
+        }
+    })
+
+  /*  // Data storage
+
+    function saveData(name, data){
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({filedata: data}));
+    } */
+
+   /* create timeline */
     const timeline = [];
 
     // generate a random subject ID with 15 characters
@@ -91,6 +106,14 @@ if(lang == "de") {
     const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
 
 
+    function btn_press () {
+        let btn = document.getElementById("next")
+        btn.onclick = function() {
+            let answer = document.querySelector('input[name="answer"]:checked').value
+            jsPsych.finishTrial({ response: answer});
+        };
+    }
+
     for (let i = 0; i < 9; i++) {
         let trial = {
             type: jsPsychExternalHtml,
@@ -98,19 +121,11 @@ if(lang == "de") {
             check_fn: check_answer,
             cont_btn: "next",
             css_classes: ['button2'],
+            on_load: btn_press,
+
         };
         timeline.push(trial)
     }
-
-    /* on_finish: function(){
-                if(document.getElementById('yes').checked){
-                    data.affirmed = 'yes'
-                } else if(document.getElementById('no').checked){
-                    data.affirmed = 'no'
-                } else {
-                    data.affirmed = 'NA'
-                }
-            }, */
 
    // Attention Check
 
@@ -121,7 +136,7 @@ if(lang == "de") {
         on_load: function () {
             var btn = document.getElementById("manipulationCheck");
             btn.onclick = function() {
-                jsPsych.finishTrial({ responses: true});
+                jsPsych.finishTrial({ response: true});
             };
         },
         css_classes: ['button2'],
@@ -130,20 +145,20 @@ if(lang == "de") {
     timeline.push(attention);
 
     // test saving data
-   /* jsPsych.data.addProperties({
-        answer: function(){
+    /* jsPsych.data.addProperties({
+        answer: function(data){
             if(document.getElementById('yes').checked){
-                return 'yes'
+                print(`yes${trial_index}`)
             } else if(document.getElementById('no').checked){
-                return 'no'
+                return 'no' + trial_index
             } else if(document.getElementById('manipulationCheck').pressed){
-                return 'passed'
+                return 'passed' + trial_index
             } else{
                 return 'NA'
             }
         },
-    }); */
-
+    });
+*/
 
     // Understanding of dilemmas
 
@@ -153,6 +168,7 @@ if(lang == "de") {
             questions: [
                 {
                     prompt: "Bitte bewerten Sie Ihr Verständnis der moralischen Dilemmata.",
+                    required: true,
                     labels: [
                         "Kein Verständnis",
                         "",
@@ -163,7 +179,7 @@ if(lang == "de") {
                         "Völliges Verständnis"
                     ]
                 }
-            ]
+            ],
         };
         timeline.push(understandde)
     } else {
@@ -172,6 +188,7 @@ if(lang == "de") {
             questions: [
                 {
                     prompt: "Please rate your understanding of the moral dilemmas",
+                    required: true,
                     labels: [
                         "No understanding",
                         "",
@@ -182,7 +199,7 @@ if(lang == "de") {
                         "Complete understanding"
                     ]
                 }
-            ]
+            ],
         };
         timeline.push(understanden)
     }
@@ -323,11 +340,11 @@ if(lang == "de") {
 
     // Dank am Ende
 
-    if(lang == "de") {
+  /*  if(lang == "de") {
         var dankde = {
             type: jsPsychInstructions,
             pages: [
-                `Vielen Dank für die Teilnahme! Sie können dieses Browserfenster nun schließen. Wenn Sie Fragen oder weitere Anmerkungen haben <br>wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>`
+                `Vielen Dank für die Teilnahme! Sie können dieses Browserfenster nun schließen. Wenn Sie Fragen oder weitere Anmerkungen haben, wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>`
             ],
             show_clickable_nav: false,
         };
@@ -336,12 +353,14 @@ if(lang == "de") {
         var danken = {
             type: jsPsychInstructions,
             pages: [
-                `Thank you for your participation! You can close this browser window now. If you have any questions or further comments about the experiment <br>please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>`
+                `Thank you for your participation! You can close this browser window now. If you have any questions or further comments about the experiment please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>`
             ],
             show_clickable_nav: false,
         };
         timeline.push(danken)
     }
+*/
+
 
 
 
@@ -350,7 +369,6 @@ if(lang == "de") {
 
     console.log(jsPsych.data.get())
 
-    // Data storage
 
 
 
