@@ -110,7 +110,7 @@ if(lang == "de") {
         let btn = document.getElementById("next")
         btn.onclick = function() {
             let answer = document.querySelector('input[name="answer"]:checked').value
-            jsPsych.finishTrial({ response: answer});
+            jsPsych.data.write({response: answer});
         };
     }
 
@@ -122,7 +122,6 @@ if(lang == "de") {
             cont_btn: "next",
             css_classes: ['button2'],
             on_load: btn_press,
-
         };
         timeline.push(trial)
     }
@@ -144,21 +143,6 @@ if(lang == "de") {
 
     timeline.push(attention);
 
-    // test saving data
-    /* jsPsych.data.addProperties({
-        answer: function(data){
-            if(document.getElementById('yes').checked){
-                print(`yes${trial_index}`)
-            } else if(document.getElementById('no').checked){
-                return 'no' + trial_index
-            } else if(document.getElementById('manipulationCheck').pressed){
-                return 'passed' + trial_index
-            } else{
-                return 'NA'
-            }
-        },
-    });
-*/
 
     // Understanding of dilemmas
 
@@ -272,7 +256,8 @@ if(lang == "de") {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> Wie alt sind Sie? </p>`,
             html: `<p><label for="number">Alter:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
-            button_label: 'Weiter'
+            button_label: 'Weiter',
+            required: true,
         };
         timeline.push(alterde)
     } else {
@@ -280,7 +265,8 @@ if(lang == "de") {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> How old are you? </p>`,
             html: `<p><label for="number">Age:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
-            button_label: 'Weiter'
+            button_label: 'Weiter',
+            required: true,
         };
         timeline.push(alteren)
     }
