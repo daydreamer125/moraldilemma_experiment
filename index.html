@@ -27,25 +27,28 @@
 
 
 
-  /*  // Data storage
+    // Data storage
 
     function saveData(name, data){
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({filedata: data}));
-    } */
+    }
 
     // initialize jsPsych
-
 
   // Data storage
  const jsPsych = initJsPsych({
         on_finish: function() {
-            jsPsych.data.displayData('csv');
+            //jsPsych.data.displayData('csv');
+            console.log(jsPsych.data.get().csv());
         }
     })
 
+
+
+  // jsPsych.data.displayData('csv')
 
     // create timeline
     const timeline = [];
@@ -65,25 +68,25 @@
 
  // Enter fullscreen mode and initial greeting
 
-if(lang == "de") {
-    const enter_fullscreende = {
+    if(lang == "de") {
+        const enter_fullscreende = {
         type: jsPsychFullscreen,
         fullscreen_mode: true,
         message: '<p>Willkommen zum Experiment. Im Rahmen meiner Master-Arbeit erforsche ich das Entscheidungsverhalten bei moralischen Dilemmata. Die erhobenen Daten werden anonymisiert verarbeitet. Bitte klicken Sie "Weiter", um den Vollbildmodus zu starten und das Experiment zu beginnen. </p>',
         button_label: 'Weiter',
         delay_after: 0,
-    }
+        }
     timeline.push(enter_fullscreende)
-} else{
-    const enter_fullscreenen = {
+    } else{
+        const enter_fullscreenen = {
         type: jsPsychFullscreen,
         fullscreen_mode: true,
         message: `<p>Welcome to the experiment. As part of my master's thesis, I am researching decision-making behavior in moral dilemmas. All collected data will be processed anonymously. Please press "Continue" to start fullscreen mode and begin the experiment.</p>`,
         button_label: 'Continue',
         delay_after: 0,
-    }
+        }
     timeline.push(enter_fullscreenen)
-}
+    }
 
     //  Instructions
 
@@ -111,7 +114,7 @@ if(lang == "de") {
     const cong = jsPsych.randomization.sampleWithoutReplacement(["cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_", "cong_", "incong_"], 9)
 
 
-    function btn_press () {
+   function btn_press () {
         let btn = document.getElementById("next")
         btn.onclick = function() {
             let answer = document.querySelector('input[name="answer"]:checked').value
@@ -126,6 +129,13 @@ if(lang == "de") {
             check_fn: check_answer,
             cont_btn: "next",
             css_classes: ['button2'],
+            data: {
+                language: lang[i],
+                dilemma: dilemma[i],
+                involv: involvement[i],
+                congruent: cong[i],
+                def: act[i],
+            },
             on_load: btn_press,
         };
         timeline.push(trial)
@@ -133,7 +143,7 @@ if(lang == "de") {
 
    // Attention Check
 
-    var attention = {
+    const attention = {
         type: jsPsychExternalHtml,
         url: "content/" + lang + "/attention_check.html",
         cont_btn: 'next',
@@ -152,7 +162,7 @@ if(lang == "de") {
     // Understanding of dilemmas
 
     if(lang == "de") {
-        var understandde = {
+        const understandde = {
             type: jsPsychSurveyLikert,
             questions: [
                 {
@@ -172,7 +182,7 @@ if(lang == "de") {
         };
         timeline.push(understandde)
     } else {
-        var understanden = {
+        const understanden = {
             type: jsPsychSurveyLikert,
             questions: [
                 {
@@ -197,7 +207,7 @@ if(lang == "de") {
     // Demographics
 
     if(lang == "de") {
-        var demografde = {
+        const demografde = {
             type: jsPsychSurveyMultiChoice,
             questions: [
                 {
@@ -226,7 +236,7 @@ if(lang == "de") {
         };
         timeline.push(demografde)
     } else {
-        var demografen = {
+        const demografen = {
             type: jsPsychSurveyMultiChoice,
             questions: [
                 {
@@ -257,7 +267,7 @@ if(lang == "de") {
     // Age with number input
 
     if(lang == "de") {
-        var alterde = {
+        const alterde = {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> Wie alt sind Sie? </p>`,
             html: `<p><label for="number">Alter:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
@@ -266,7 +276,7 @@ if(lang == "de") {
         };
         timeline.push(alterde)
     } else {
-        var alteren = {
+        const alteren = {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> How old are you? </p>`,
             html: `<p><label for="number">Age:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
@@ -280,7 +290,7 @@ if(lang == "de") {
     // Anmerkungen
 
     if(lang == "de") {
-        var anmerkungde = {
+        const anmerkungde = {
             type: jsPsychSurveyText,
             questions: [
                 {prompt: 'Haben Sie noch Anmerkungen?', rows: 5}
@@ -289,7 +299,7 @@ if(lang == "de") {
         };
         timeline.push(anmerkungde)
     } else {
-        var anmerkungen = {
+        const anmerkungen = {
             type: jsPsychSurveyText,
             questions: [
                 {prompt: 'Do you have any comments?', rows: 5}
@@ -302,19 +312,19 @@ if(lang == "de") {
     // Compensation
 
     if(lang == "de") {
-        var compensationde = {
+        const compensationde = {
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie eine halbe Versuchspersonenstunde erhalten möchten <strong>oder</strong> an der Verlosung eines von drei Gutscheinen im Wert von xx€ teilnehmen möchten. Für den Erhalt der Versuchspersonenstunde ist die Angabe Ihrer studentischen E-Mail-Adresse (...@student.uni-tuebingen.de) erforderlich. </p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
             button_label: 'Weiter'
         };
         timeline.push(compensationde);
     } else{
-        var compensationen = {
+        const compensationen = {
             type: jsPsychSurveyHtmlForm,
             // language=HTML
             preamble: `<p> Please enter your e-mail address if you would like to receive half an hour of participation time (0,5 Versuchspersonenstunde) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) if you wish to receive participation time .</p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="voucher" id="vph"/><label for="vph"> 0,5 participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Voucher draw</label><br><br></p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> Participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher"> Voucher draw</label><br><br></p>`,
             button_label: 'Weiter'
         };
         timeline.push(compensationen);
@@ -358,7 +368,10 @@ if(lang == "de") {
     /* start the experiment */
     jsPsych.run(timeline);
 
-    console.log(jsPsych.data.get())
+
+
+
+    //console.log(jsPsych.data.get())
 
 
 
