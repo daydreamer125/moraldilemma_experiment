@@ -25,7 +25,13 @@
 </body>
 <script>
 
-
+   /* function saveData(name, data){
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({filedata: data}));
+    }
+    */
 
     // Data storage
 
@@ -36,6 +42,7 @@
         on_finish: function() {
             //jsPsych.data.displayData('csv');
             console.log(jsPsych.data.get().csv());
+           // saveData(subject_id, jsPsych.data.get().csv())
         }
     })
 
@@ -332,7 +339,7 @@
 
     // Dank am Ende
 
- /* if(lang == "de") {
+  if(lang == "de") {
         var dankde = {
             type: jsPsychInstructions,
             pages: [
@@ -352,7 +359,9 @@
         timeline.push(danken)
     }
 
-*/
+
+
+
 
 
 
