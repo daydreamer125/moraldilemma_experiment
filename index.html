@@ -29,26 +29,17 @@
 
     // Data storage
 
-    function saveData(name, data){
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({filedata: data}));
-    }
-
-    // initialize jsPsych
+        // initialize jsPsych
 
   // Data storage
- const jsPsych = initJsPsych({
+    const jsPsych = initJsPsych({
         on_finish: function() {
             //jsPsych.data.displayData('csv');
             console.log(jsPsych.data.get().csv());
         }
     })
 
-
-
-  // jsPsych.data.displayData('csv')
+    // jsPsych.data.displayData('csv')
 
     // create timeline
     const timeline = [];
@@ -314,8 +305,8 @@
     if(lang == "de") {
         const compensationde = {
             type: jsPsychSurveyHtmlForm,
-            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie eine halbe Versuchspersonenstunde erhalten möchten <strong>oder</strong> an der Verlosung eines von drei Gutscheinen im Wert von xx€ teilnehmen möchten. Für den Erhalt der Versuchspersonenstunde ist die Angabe Ihrer studentischen E-Mail-Adresse (...@student.uni-tuebingen.de) erforderlich. </p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> 0,5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
+            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie eine halbe Versuchspersonenstunde erhalten möchten <strong>oder</strong> an der Verlosung eines von drei Gutscheinen im Wert von xx€ teilnehmen möchten. Für den Erhalt der 0.5 Versuchspersonenstunden ist die Angabe Ihrer studentischen E-Mail-Adresse (...@student.uni-tuebingen.de) erforderlich. </p>`,
+            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> 0.5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
             button_label: 'Weiter'
         };
         timeline.push(compensationde);
@@ -323,7 +314,7 @@
         const compensationen = {
             type: jsPsychSurveyHtmlForm,
             // language=HTML
-            preamble: `<p> Please enter your e-mail address if you would like to receive half an hour of participation time (0,5 Versuchspersonenstunde) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) if you wish to receive participation time .</p>`,
+            preamble: `<p> Please enter your e-mail address if you would like to receive half an hour of participation time (0.5 Versuchspersonenstunden) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) if you wish to receive participation time .</p>`,
             html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> Participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher"> Voucher draw</label><br><br></p>`,
             button_label: 'Weiter'
         };
