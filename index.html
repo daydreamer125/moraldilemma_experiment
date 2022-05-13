@@ -25,13 +25,13 @@
 </body>
 <script>
 
-   /* function saveData(name, data){
+    function saveData(name, data){
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify({filedata: data}));
     }
-    */
+
 
     // Data storage
 
@@ -41,12 +41,11 @@
     const jsPsych = initJsPsych({
         on_finish: function() {
             //jsPsych.data.displayData('csv');
-            console.log(jsPsych.data.get().csv());
-           // saveData(subject_id, jsPsych.data.get().csv())
+            // console.log(jsPsych.data.get().csv());
+            saveData(subject_id, jsPsych.data.get().csv())
         }
     })
 
-    // jsPsych.data.displayData('csv')
 
     // create timeline
     const timeline = [];
@@ -162,6 +161,7 @@
     if(lang == "de") {
         const understandde = {
             type: jsPsychSurveyLikert,
+            button_label: 'Weiter',
             questions: [
                 {
                     prompt: "Bitte bewerten Sie Ihr Verständnis der moralischen Dilemmata.",
@@ -278,7 +278,6 @@
             type: jsPsychSurveyHtmlForm,
             preamble: `<p> How old are you? </p>`,
             html: `<p><label for="number">Age:</label><br><input name="age" type="number" style="font-size:16px;width:400px" id="age" /></p><p><br></p>`,
-            button_label: 'Weiter',
             required: true,
         };
         timeline.push(alteren)
@@ -323,46 +322,36 @@
             // language=HTML
             preamble: `<p> Please enter your e-mail address if you would like to receive half an hour of participation time (0.5 Versuchspersonenstunden) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) if you wish to receive participation time .</p>`,
             html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> Participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher"> Voucher draw</label><br><br></p>`,
-            button_label: 'Weiter'
+            button_label: 'Continue'
         };
         timeline.push(compensationen);
     }
 
-    // Exit fullscreen
-    const exit_fullscreen = {
-        type: jsPsychFullscreen,
-        fullscreen_mode: false,
-        delay_after: 0,
-    }
-    timeline.push(exit_fullscreen)
 
-
-    // Dank am Ende
-
-  if(lang == "de") {
-        var dankde = {
-            type: jsPsychInstructions,
-            pages: [
-                `Vielen Dank für die Teilnahme! Sie können dieses Browserfenster nun schließen. Wenn Sie Fragen oder weitere Anmerkungen haben, wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>`
-            ],
-            show_clickable_nav: false,
-        };
-        timeline.push(dankde)
-    } else {
-        var danken = {
-            type: jsPsychInstructions,
-            pages: [
-                `Thank you for your participation! You can close this browser window now. If you have any questions or further comments about the experiment please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>`
-            ],
-            show_clickable_nav: false,
-        };
-        timeline.push(danken)
-    }
-
-
-
-
-
+   // Exit fullscreen & Dank am Ende
+   if(lang == "de") {
+       const exit_fullscreende = {
+           type: jsPsychFullscreen,
+           fullscreen_mode: false,
+           delay_after: 0,
+           on_finish: function () {
+               jsPsych.endExperiment(`<p> <b> Vielen Dank für die Teilnahme!</b> </p> Sie können dieses Browserfenster nun schließen. Wenn Sie Fragen oder weitere Anmerkungen haben, wenden Sie sich bitte per Mail an <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata"">mareike.reents@student.uni-tuebingen.de</a>`
+               );
+           }
+       }
+       timeline.push(exit_fullscreende)
+   } else{
+       const exit_fullscreenen = {
+           type: jsPsychFullscreen,
+           fullscreen_mode: false,
+           delay_after: 0,
+           on_finish: function () {
+               jsPsych.endExperiment(`<p> <b> Thank you for your participation!</b> </p> You can close this browser window now. If you have any questions or further comments about the experiment please reach out via mail to <a href="mailto:mareike.reents@student.uni-tuebingen.de?subject=Experiment Moralische Dilemmata">mareike.reents@student.uni-tuebingen.de</a>`
+               );
+           }
+       }
+       timeline.push(exit_fullscreenen)
+   }
 
 
     /* start the experiment */
