@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-fullscreen@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-external-html@1.1.0"></script>
-    <script src="https://unpkg.com/@jspsych/plugin-instructions@1.1.0"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-select@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-likert@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.0"></script>
     <script src="https://unpkg.com/@jspsych/plugin-survey-html-form"></script>
@@ -202,7 +202,7 @@
     }
 
 
-    // Demographics
+    // Demographics 1
 
     if(lang == "de") {
         const demografde = {
@@ -212,12 +212,6 @@
                     prompt: "Bitte geben Sie Ihr Geschlecht an.",
                     name: 'gender',
                     options: ['männlich', 'weiblich', 'divers'],
-                    required: true,
-                },
-                {
-                    prompt: "Sind Deutsch oder Englisch Ihre Muttersprache?",
-                    name: 'mainlanguage',
-                    options: ['Deutsch', 'Englisch', 'Andere'],
                     required: true,
                 },
                 {
@@ -244,12 +238,6 @@
                     required: true,
                 },
                 {
-                    prompt: "Are German or English your native language?",
-                    name: 'mainlanguage',
-                    options: ['German', 'English', 'other'],
-                    required: true,
-                },
-                {
                     prompt: "Have you lived in an english speaking <br>" +
                         "country for at least 12 months?",
                     name: 'enspeakingcountry',
@@ -261,6 +249,41 @@
         };
         timeline.push(demografen)
     }
+
+    // Demographics 2
+
+    if(lang == "de") {
+        const demografde2 = {
+            type: jsPsychSurveyMultiSelect,
+            questions: [
+                {
+                    prompt: "Sind Deutsch oder Englisch Ihre Muttersprache?",
+                    name: 'mainlanguage',
+                    options: ['Deutsch', 'Englisch', 'Andere'],
+                    required: true,
+                },
+            ],
+            preamble: "Bitte machen Sie noch einige demografische Angaben.",
+            button_label: "Weiter",
+            columns: 0,
+        };
+        timeline.push(demografde2)
+    } else {
+        const demografen2 = {
+            type: jsPsychSurveyMultiSelect,
+            questions: [
+                {
+                    prompt: "Are German or English your native language?",
+                    name: 'mainlanguage',
+                    options: ['German', 'English', 'other'],
+                    required: true,
+                },
+            ],
+            preamble: "Please provide some demographic information.",
+        };
+        timeline.push(demografen2)
+    }
+
 
     // Age with number input
 
