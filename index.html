@@ -334,7 +334,7 @@
     if(lang == "de") {
         const compensationde = {
             type: jsPsychSurveyHtmlForm,
-            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie an der Verlosung eines von zehn Gutscheinen für eine Buchhandlung im Wert von jeweils 10€ teilnehmen möchten. Wenn Sie 0.5 Versuchspersonenstunden für die Teilnahme am Experiment erhalten möchten, geben Sie bitte Ihre Sona-ID an. Zusätzlich ist für den Erhalt der Versuchspersonenstunden eine Registrierung für die Studie "Entscheidungsverhalten beim moralischen Urteilen" im Sona System erforderlich. </p>`,
+            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie an der Verlosung eines von zehn Gutscheinen für eine Buchhandlung im Wert von jeweils 10&#8239;€ teilnehmen möchten. Wenn Sie 0.5 Versuchspersonenstunden für die Teilnahme am Experiment erhalten möchten, geben Sie bitte Ihre Sona-ID an. Zusätzlich ist für den Erhalt der Versuchspersonenstunden eine Registrierung für die Studie "Entscheidungsverhalten beim moralischen Urteilen" im Sona System erforderlich. </p>`,
             html: `<p><label for="email">E-Mail/ Sona-ID:</label><br><input name="email/SonaID" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> 0.5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
             button_label: 'Weiter'
         };
@@ -343,7 +343,7 @@
         const compensationen = {
             type: jsPsychSurveyHtmlForm,
             // language=HTML
-            preamble: `<p> Please enter your e-mail address if you would like to participate in the drawing for one of ten bookstore-vouchers worth 10€ each. If you would like to receive half an hour of participation time (Versuchspersonenstunden) for participating in the experiment, please enter your Sona ID. Additionally, registration for the study "Entscheidungsverhalten beim moralischen Urteilen" in the Sona system is required to receive participation time.</p>`,
+            preamble: `<p> Please enter your e-mail address if you would like to participate in the drawing for one of ten bookstore-vouchers worth 10&#8239;€ each. If you would like to receive half an hour of participation time (Versuchspersonenstunden) for participating in the experiment, please enter your Sona ID. Additionally, registration for the study "Entscheidungsverhalten beim moralischen Urteilen" in the Sona system is required to receive participation time.</p>`,
             html: `<p><label for="email">E-Mail/ Sona-ID:</label><br><input name="email/SonaID" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> Participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher"> Voucher draw</label><br><br></p>`,
             button_label: 'Continue'
         };
