@@ -164,16 +164,16 @@
             button_label: 'Weiter',
             questions: [
                 {
-                    prompt: "Bitte bewerten Sie Ihr Verständnis der moralischen Dilemmata.",
+                    prompt: "Wie gut, denken Sie, haben Sie die moralischen Dilemmas inhaltlich verstanden?",
                     required: true,
                     labels: [
-                        "Kein Verständnis",
+                        "Ich habe die Dilemmas inhaltlich gar nicht verstanden",
                         "",
                         "",
                         "",
                         "",
                         "",
-                        "Völliges Verständnis"
+                        "Ich habe alle Dilemmas inhaltlich sehr gut verstanden"
                     ]
                 }
             ],
@@ -184,16 +184,16 @@
             type: jsPsychSurveyLikert,
             questions: [
                 {
-                    prompt: "Please rate your understanding of the moral dilemmas",
+                    prompt: "How well do you think you understood the content of the moral dilemmas?",
                     required: true,
                     labels: [
-                        "No understanding",
+                        "I did not understand the content of the dilemmas at all",
                         "",
                         "",
                         "",
                         "",
                         "",
-                        "Complete understanding"
+                        "I understood all the dilemmas very well in terms of content"
                     ]
                 }
             ],
@@ -334,8 +334,8 @@
     if(lang == "de") {
         const compensationde = {
             type: jsPsychSurveyHtmlForm,
-            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie eine halbe Versuchspersonenstunde erhalten möchten <strong>oder</strong> an der Verlosung eines von drei Gutscheinen im Wert von xx€ teilnehmen möchten. Für den Erhalt der 0.5 Versuchspersonenstunden ist die Angabe Ihrer studentischen E-Mail-Adresse (...@student.uni-tuebingen.de) erforderlich. </p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> 0.5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
+            preamble: `<p> Geben Sie bitte Ihre E-Mail-Adresse an, wenn Sie an der Verlosung eines von zehn Gutscheinen für eine Buchhandlung im Wert von jeweils 10€ teilnehmen möchten. Wenn Sie 0.5 Versuchspersonenstunden für die Teilnahme am Experiment erhalten möchten, geben Sie bitte Ihre Sona-ID an. Zusätzlich ist für den Erhalt der Versuchspersonenstunden eine Registrierung für die Studie "Entscheidungsverhalten beim moralischen Urteilen" im Sona System erforderlich. </p>`,
+            html: `<p><label for="email">E-Mail/ Sona-ID:</label><br><input name="email/SonaID" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> 0.5 Versuchspersonenstunden</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher">Verlosung Gutschein</label><br><br></p>`,
             button_label: 'Weiter'
         };
         timeline.push(compensationde);
@@ -343,8 +343,8 @@
         const compensationen = {
             type: jsPsychSurveyHtmlForm,
             // language=HTML
-            preamble: `<p> Please enter your e-mail address if you would like to receive half an hour of participation time (0.5 Versuchspersonenstunden) <strong>or</strong> take part in the draw for one of three vouchers worth xx€. You must provide your student email address (...@student.uni-tuebingen.de) if you wish to receive participation time .</p>`,
-            html: `<p><label for="email">E-Mail:</label><br><input name="email" type="email" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> Participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher"> Voucher draw</label><br><br></p>`,
+            preamble: `<p> Please enter your e-mail address if you would like to participate in the drawing for one of ten bookstore-vouchers worth 10€ each. If you would like to receive half an hour of participation time (Versuchspersonenstunden) for participating in the experiment, please enter your Sona ID. Additionally, registration for the study "Entscheidungsverhalten beim moralischen Urteilen" in the Sona system is required to receive participation time.</p>`,
+            html: `<p><label for="email">E-Mail/ Sona-ID:</label><br><input name="email/SonaID" style="font-size:16px;width:400px" id="email" /></p><p><br><input name="compensation" type="radio" value="vph" id="vph"/><label for="vph"> Participation time</label><br><input name="compensation" type="radio" value="voucher" id="voucher"/><label for="voucher"> Voucher draw</label><br><br></p>`,
             button_label: 'Continue'
         };
         timeline.push(compensationen);
